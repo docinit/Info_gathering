@@ -16,6 +16,7 @@ class JobparserPipeline(object):
     def process_item(self, item, spider):
         ##### HH
         if spider.name == 'hhru':
+            collection = self.vacancy_db[spider.name]
             for k,i in enumerate(item['y']):
                 item['y'][k] = unicodedata.normalize('NFKD',str(i)).replace('<','').split(' div')[0]
             for k,i in enumerate(item['y']):
@@ -70,7 +71,6 @@ class JobparserPipeline(object):
                          'max_salary':max_salary,
                          'min_salary':min_salary,
                          'currency':currency}
-                collection = self.vacancy_db[spider.name]
                 collection.insert_one(iitem)
         ##### HH
         if spider.name == 'sjru':
